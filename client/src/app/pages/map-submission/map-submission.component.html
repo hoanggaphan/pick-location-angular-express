@@ -1,0 +1,32 @@
+<google-map
+  height="500px"
+  width="100%"
+  [zoom]="zoom"
+  [center]="center"
+  [options]="options"
+  (mapClick)="click($event)"
+>
+  @for (marker of markers; track $index) {
+  <map-marker
+    #markerElem
+    [position]="marker.position"
+    [label]="marker.label"
+    [title]="marker.title"
+    [options]="marker.options"
+    (mapClick)="openInfo(markerElem, marker.info)"
+  >
+  </map-marker>
+
+  }
+
+  <map-info-window>{{ infoContent }}</map-info-window>
+</google-map>
+
+<button mat-raised-button color="primary" (click)="zoomIn()">Zoom in</button>
+<button mat-raised-button color="primary" (click)="zoomOut()">Zoom out</button>
+<button mat-raised-button color="primary" (click)="logCenter()">
+  Log center
+</button>
+<button mat-raised-button color="primary" (click)="addMarker()">
+  Add marker
+</button>
