@@ -1,35 +1,32 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  GoogleMap,
-  GoogleMapsModule,
-  MapInfoWindow,
-} from '@angular/google-maps';
+import { Component, OnInit } from '@angular/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-map-submission',
   standalone: true,
   templateUrl: './map-submission.component.html',
   styleUrl: './map-submission.component.scss',
-  imports: [GoogleMapsModule, CommonModule, MatButtonModule],
+  imports: [GoogleMapsModule, CommonModule, MatButtonModule, MatIconModule],
 })
 export class MapSubmissionComponent implements OnInit {
-  @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
-  @ViewChild(MapInfoWindow, { static: false }) info!: MapInfoWindow;
-
   zoom = 12;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
-    zoomControl: false,
     scrollwheel: false,
     disableDoubleClickZoom: true,
-    mapTypeId: 'hybrid',
     maxZoom: 15,
     minZoom: 8,
   };
-  markers: any[] = [];
-  infoContent = '';
+  marker: google.maps.LatLngLiteral | null = null;
+  markerOptions = {
+    animation: google.maps.Animation.BOUNCE,
+  };
+
+  constructor(private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -40,42 +37,23 @@ export class MapSubmissionComponent implements OnInit {
     });
   }
 
-  zoomIn() {
-    if (this.options.maxZoom && this.zoom < this.options.maxZoom) this.zoom++;
+  pickMarker(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      this.marker = event.latLng.toJSON();
+    }
   }
 
-  zoomOut() {
-    if (this.options.minZoom && this.zoom > this.options.minZoom) this.zoom--;
-  }
+  submit() {
+    if (!this.marker) {
+      this._snackBar.open('Please pick 1 location!', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 5000,
+        panelClass: 'alert-type-fill-error',
+      });
+      return;
+    }
 
-  click(event: google.maps.MapMouseEvent) {
-    console.log({ event });
-  }
-
-  logCenter() {
-    console.log(JSON.stringify(this.map.getCenter()));
-  }
-
-  addMarker() {
-    this.markers.push({
-      position: {
-        lat: this.center.lat + ((Math.random() - 0.5) * 2) / 10,
-        lng: this.center.lng + ((Math.random() - 0.5) * 2) / 10,
-      },
-      label: {
-        color: 'red',
-        text: 'Marker label ' + (this.markers.length + 1),
-      },
-      title: 'Marker title ' + (this.markers.length + 1),
-      info: 'Marker info ' + (this.markers.length + 1),
-      options: {
-        animation: google.maps.Animation.BOUNCE,
-      },
-    });
-  }
-
-  openInfo(marker: any, content: string) {
-    this.infoContent = content;
-    this.info.open(marker);
+    console.log(this.marker);
   }
 }

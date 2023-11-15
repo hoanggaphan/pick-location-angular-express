@@ -18,6 +18,11 @@ export const routes: Routes = [
             (m) => m.MapSubmissionComponent
           ),
       },
+      {
+        path: 'user',
+        loadComponent: () =>
+          import('./pages/user/user.component').then((m) => m.UserComponent),
+      },
     ],
   },
   {

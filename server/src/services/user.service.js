@@ -1,4 +1,5 @@
 import { db } from '../configs/db.config.js';
+import CustomError from '../helpers/CustomError.js';
 
 const User = db.users;
 
@@ -17,14 +18,6 @@ export const getUser = async (id) => {
       throw new CustomError('User was not found', 404);
     }
     return user;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const createUser = async (data) => {
-  try {
-    return await User.create(data);
   } catch (error) {
     throw error;
   }

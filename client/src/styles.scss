@@ -2,5 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.alert-type-fill-info {
+  .mdc-snackbar__surface {
+    @apply bg-gray-600 #{!important};
+  }
+}
+
+.alert-type-fill-success {
+  .mdc-snackbar__surface {
+    @apply bg-green-600 #{!important};
+  }
+}
+
+.alert-type-fill-error {
+  .mdc-snackbar__surface {
+    @apply bg-red-600 #{!important};
+  }
+}
+
+.alert-type-fill-info,
+.alert-type-fill-success,
+.alert-type-fill-error {
+  @apply text-white #{!important};
+  .mdc-button {
+    @apply text-white #{!important};
+  }
+}

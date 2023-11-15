@@ -5,7 +5,9 @@ import { connectDB } from './src/configs/db.config.js';
 import locationRoutes from './src/routes/location.route.js';
 import userRoutes from './src/routes/user.route.js';
 import submissionRoutes from './src/routes/submission.route.js';
+import authRoutes from './src/routes/auth.route.js';
 import { errorHandler } from './src/middlewares/errorHandler.middleware.js';
+import * as authDiddleware from './src/middlewares/auth.middleware.js';
 
 const app = express();
 
@@ -16,9 +18,10 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/api/locations', locationRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/submissions', submissionRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/locations', authDiddleware.checkToken, locationRoutes);
+app.use('/api/users', authDiddleware.checkToken, userRoutes);
+app.use('/api/submissions', authDiddleware.checkToken, submissionRoutes);
 
 app.use(errorHandler);
 

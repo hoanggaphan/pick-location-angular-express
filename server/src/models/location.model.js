@@ -27,6 +27,10 @@ export default (sequelize) => {
       allowNull: false,
       defaultValue: 'pending',
     },
+    area: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+    },
   });
 
   return Location;

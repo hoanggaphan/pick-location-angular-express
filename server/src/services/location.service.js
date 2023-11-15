@@ -1,5 +1,5 @@
 import { db } from '../configs/db.config.js';
-import CustomError from '../utils/CustomError.js';
+import CustomError from '../helpers/CustomError.js';
 
 const Location = db.locations;
 

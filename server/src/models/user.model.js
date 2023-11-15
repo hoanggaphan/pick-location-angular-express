@@ -11,10 +11,10 @@ export default (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: {
+    role: {
       type: DataTypes.ENUM('user', 'admin'),
+      defaultValue: 'user',
       allowNull: false,
-      default: 'user',
     },
   });
 
