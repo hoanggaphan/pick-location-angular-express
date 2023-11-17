@@ -54,8 +54,8 @@ export class RegisterComponent {
     [matchPassword('password', 'confirm_password')]
   );
   errorMessage = '';
-  authService = inject(AuthService);
-  router = inject(Router);
+  _authService = inject(AuthService);
+  _router = inject(Router);
   _snackBar = inject(MatSnackBar);
 
   getErrorUsernameMess() {
@@ -111,7 +111,7 @@ export class RegisterComponent {
       this.form.value.password &&
       this.form.value.confirm_password
     ) {
-      this.authService
+      this._authService
         .register({
           username: this.form.value.username,
           password: this.form.value.password,
@@ -120,7 +120,7 @@ export class RegisterComponent {
         .subscribe(
           (res) => {
             localStorage.setItem('user', JSON.stringify(res));
-            this.router.navigate(['/login']);
+            this._router.navigate(['/login']);
             this._snackBar.open('register successfully!', 'Close', {
               horizontalPosition: 'center',
               verticalPosition: 'top',

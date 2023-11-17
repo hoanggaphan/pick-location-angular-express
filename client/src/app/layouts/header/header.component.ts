@@ -13,10 +13,10 @@ import AuthService from '../../services/auth.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  authService = inject(AuthService);
-  user = JSON.parse(this.authService.getUser());
+  _authService = inject(AuthService);
+  user = JSON.parse(this._authService.getUser());
 
   logout() {
-    this.authService.logout();
+    this._authService.logout();
   }
 }

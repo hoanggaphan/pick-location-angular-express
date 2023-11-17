@@ -9,20 +9,20 @@ import { RegisterReq } from '../models/RegisterReq';
   providedIn: 'root',
 })
 export default class AuthService {
-  httpClient = inject(HttpClient);
-  router = inject(Router);
+  _httpClient = inject(HttpClient);
+  _router = inject(Router);
 
   login(user: LoginReq) {
-    return this.httpClient.post(`${environment.apiUrl}/auth/login`, user);
+    return this._httpClient.post(`${environment.apiUrl}/auth/login`, user);
   }
 
   register(user: RegisterReq) {
-    return this.httpClient.post(`${environment.apiUrl}/auth/register`, user);
+    return this._httpClient.post(`${environment.apiUrl}/auth/register`, user);
   }
 
   logout() {
     localStorage.clear();
-    this.router.navigateByUrl('/login');
+    this._router.navigateByUrl('/login');
   }
 
   isLogged() {
@@ -36,10 +36,10 @@ export default class AuthService {
   haveAccess() {
     const userLocal = localStorage.getItem('user') ?? '';
     const loggintoken = JSON.parse(userLocal).accessToken;
-    const _extractedtoken = loggintoken.split('.')[1];
-    const _atobdata = atob(_extractedtoken);
-    const _finaldata = JSON.parse(_atobdata);
-    if (_finaldata.role == 'admin') {
+    const extractedtoken = loggintoken.split('.')[1];
+    const atobdata = atob(extractedtoken);
+    const finaldata = JSON.parse(atobdata);
+    if (finaldata.role == 'admin') {
       return true;
     } else {
       alert('you not having access');

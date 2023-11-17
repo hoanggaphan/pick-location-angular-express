@@ -32,6 +32,15 @@ export const createLocation = async (data) => {
   }
 };
 
+export const submit = async (data) => {
+  try {
+    const { userId, lat, lng } = data;
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateLocation = async (id, data) => {
   try {
     const location = await Location.update(data, { where: { id } });

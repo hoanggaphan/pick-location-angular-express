@@ -9,14 +9,14 @@ import { environment } from '../../environments/environment';
 export class GooglemapService {
   private apiLoadedSubject = new BehaviorSubject<boolean>(false);
   apiLoaded$: Observable<boolean> = this.apiLoadedSubject.asObservable();
-  httpClient = inject(HttpClient);
+  _httpClient = inject(HttpClient);
 
   loadApi(): void {
     if (this.apiLoadedSubject.value) {
       return;
     }
 
-    this.httpClient
+    this._httpClient
       .jsonp(
         `https://maps.googleapis.com/maps/api/js?key=${environment.ggApiKey}`,
         'callback'

@@ -1,20 +1,25 @@
-import { Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { inject } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import AuthService from '../services/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export default class RoleGuard {
-  authService = inject(AuthService);
-  router = inject(Router);
+const RoleGuard: CanActivateFn = (
+  next: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+) => {
+  const _authService = inject(AuthService);
+  const _router = inject(Router);
 
-  canActivate() {
-    if (this.authService.haveAccess()) {
-      return true;
-    } else {
-      this.router.navigate(['']);
-      return false;
-    }
+  if (_authService.haveAccess()) {
+    return true;
+  } else {
+    _router.navigate(['']);
+    return false;
   }
-}
+};
+
+export default RoleGuard;

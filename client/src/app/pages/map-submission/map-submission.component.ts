@@ -5,7 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import AuthService from '../../services/auth.service';
 import { GooglemapService } from '../../services/googlemap.service';
+import LocationService from '../../services/location.service';
 
 @Component({
   selector: 'app-map-submission',
@@ -25,8 +27,11 @@ export class MapSubmissionComponent implements OnInit {
   marker: google.maps.LatLngLiteral | null = null;
   markerOptions: google.maps.MarkerOptions = {};
   _snackBar = inject(MatSnackBar);
-  googleMapService = inject(GooglemapService);
-  apiLoaded$: Observable<boolean> = this.googleMapService.apiLoaded$;
+  _googleMapService = inject(GooglemapService);
+  _locationService = inject(LocationService);
+  _authService = inject(AuthService);
+  apiLoaded$: Observable<boolean> = this._googleMapService.apiLoaded$;
+  user = JSON.parse(this._authService.getUser());
 
   ngOnInit() {
     this.apiLoaded$.subscribe((apiLoaded) => {
@@ -42,7 +47,7 @@ export class MapSubmissionComponent implements OnInit {
         };
       }
     });
-    this.googleMapService.loadApi();
+    this._googleMapService.loadApi();
   }
 
   pickMarker(event: google.maps.MapMouseEvent) {
@@ -61,7 +66,27 @@ export class MapSubmissionComponent implements OnInit {
       });
       return;
     }
+    const location = { userId: this.user.id, ...this.marker };
+    this._locationService.submit(location).subscribe(
+      (res) => {
+        this.marker = null;
+        console.log(res);
 
-    console.log(this.marker);
+        this._snackBar.open('Submit location successfully!', 'Close', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000,
+          panelClass: 'alert-type-fill-success',
+        });
+      },
+      (error) => {
+        this._snackBar.open(error.error.error.message, 'Close', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 5000,
+          panelClass: 'alert-type-fill-error',
+        });
+      }
+    );
   }
 }

@@ -34,9 +34,9 @@ export class LoginComponent {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
-  authService = inject(AuthService);
   errorMessage = '';
-  router = inject(Router);
+  _authService = inject(AuthService);
+  _router = inject(Router);
   _snackBar = inject(MatSnackBar);
 
   getErrorUsernameMess() {
@@ -61,7 +61,7 @@ export class LoginComponent {
       this.form.value.username &&
       this.form.value.password
     ) {
-      this.authService
+      this._authService
         .login({
           username: this.form.value.username,
           password: this.form.value.password,
@@ -69,7 +69,7 @@ export class LoginComponent {
         .subscribe(
           (res) => {
             localStorage.setItem('user', JSON.stringify(res));
-            this.router.navigate(['']);
+            this._router.navigate(['']);
             this._snackBar.open('Login successfully!', 'Close', {
               horizontalPosition: 'center',
               verticalPosition: 'top',
