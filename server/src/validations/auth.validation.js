@@ -25,9 +25,9 @@ export const register = validate([
   )
     .isLength({ min: 6 })
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{6,}$/
     ),
-  body('password_confirmation', 'Re-enter the password incorrectly').custom(
+  body('confirm_password', 'Re-enter the password incorrectly').custom(
     (value, { req }) => {
       return value === req.body.password;
     }

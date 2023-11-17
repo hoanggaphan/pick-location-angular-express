@@ -35,6 +35,8 @@ export const login = async (data, foundUser) => {
       jwtHelper.refreshTokenSecret,
       jwtHelper.refreshTokenLife
     );
+    
+    delete foundUser.password;
 
     return {
       ...foundUser,

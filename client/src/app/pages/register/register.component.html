@@ -1,1 +1,84 @@
-<p>register works!</p>
+<section class="h-full grid place-content-center">
+  <mat-card>
+    <mat-card-title>
+      <h1 class="text-center pt-3">Register</h1>
+    </mat-card-title>
+    <mat-card-content>
+      @if (errorMessage) {
+      <div class="bg-red-500 text-white p-2">{{ errorMessage }}</div>
+      }
+
+      <form (submit)="register()" [formGroup]="form">
+        <p>
+          <mat-form-field class="w-full">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" required />
+            @if (form.controls.username.invalid) {
+            <mat-error class="text-xs">{{ getErrorUsernameMess() }}</mat-error>
+            }
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="w-full">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              [type]="hideP ? 'password' : 'text'"
+              formControlName="password"
+              required
+            />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              (click)="hideP = !hideP"
+            >
+              <mat-icon>{{ hideP ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            @if (form.controls.password.invalid) {
+            <mat-error class="text-xs">{{ getErrorPasswordMess() }}</mat-error>
+            }
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field class="w-full">
+            <mat-label>Confirm password</mat-label>
+            <input
+              matInput
+              [type]="hideCP ? 'password' : 'text'"
+              formControlName="confirm_password"
+              required
+            />
+            <button
+              type="button"
+              mat-icon-button
+              matSuffix
+              (click)="hideCP = !hideCP"
+            >
+              <mat-icon>{{
+                hideCP ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
+            @if (form.controls.confirm_password.invalid) {
+            <mat-error class="text-xs">{{ getErrorCPasswordMess() }}</mat-error>
+            }
+          </mat-form-field>
+        </p>
+        <div class="flex justify-end">
+          <button type="submit" mat-button [disabled]="!form.valid">
+            Register
+          </button>
+        </div>
+        <div class="mt-2 flex justify-end tracking-wide text-xs">
+          <span>Already have an account?</span>
+          <a
+            class="ml-1 underline text-purple-600"
+            [routerLink]="['/login']"
+            routerLinkActive="router-link-active"
+            >login</a
+          >
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

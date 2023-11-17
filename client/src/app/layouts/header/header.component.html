@@ -4,8 +4,15 @@
     Map
   </a>
 
-  <a routerLink="/user" routerLinkActive="active-link" mat-button>
-    <mat-icon>account_circle</mat-icon>
-    User
-  </a>
+  <div class="">
+    <a routerLink="/user" routerLinkActive="active-link" mat-button>
+      <mat-icon>account_circle</mat-icon>
+      {{ user.username }}
+    </a>
+
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+  </div>
 </mat-toolbar>

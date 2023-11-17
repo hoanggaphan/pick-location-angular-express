@@ -18,11 +18,11 @@ export const generateToken = (user, secretSignature, tokenLife) => {
     const userData = {
       id: user.id,
       username: user.username,
-      roles: user.roles,
+      role: user.role,
     };
 
     jwt.sign(
-      { data: userData },
+      { ...userData },
       secretSignature,
       {
         algorithm: 'HS256',
