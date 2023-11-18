@@ -2,9 +2,13 @@ import { DataTypes } from 'sequelize';
 
 export default (sequelize) => {
   const Location = sequelize.define('Location', {
+    placeId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     name: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     longitude: {
       type: DataTypes.FLOAT,
@@ -16,11 +20,11 @@ export default (sequelize) => {
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: true,
+    types: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
     },
     status: {
       type: DataTypes.ENUM('approve', 'deny', 'pending'),
@@ -30,6 +34,14 @@ export default (sequelize) => {
     area: {
       type: DataTypes.FLOAT,
       allowNull: true,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id',
+      },
     },
   });
 

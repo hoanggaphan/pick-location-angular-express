@@ -2,11 +2,11 @@ import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
 import { connectDB } from './src/configs/db.config.js';
+import * as authDiddleware from './src/middlewares/auth.middleware.js';
+import { errorHandler } from './src/middlewares/errorHandler.middleware.js';
+import authRoutes from './src/routes/auth.route.js';
 import locationRoutes from './src/routes/location.route.js';
 import userRoutes from './src/routes/user.route.js';
-import authRoutes from './src/routes/auth.route.js';
-import { errorHandler } from './src/middlewares/errorHandler.middleware.js';
-import * as authDiddleware from './src/middlewares/auth.middleware.js';
 
 const app = express();
 

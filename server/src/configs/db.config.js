@@ -30,7 +30,7 @@ const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
 
 const connectDB = () => {
   sequelize
-    .sync()
+    .sync({ force: true })
     .then(() => {
       console.log('Synced db.');
     })
@@ -44,7 +44,7 @@ const db = {
   locations: Location(sequelize),
 };
 
-db.users.hasMany(db.locations);
-db.locations.belongsTo(db.users);
+// db.users.hasMany(db.locations, { foreignKey: 'UserId', onDelete: 'CASCADE' });
+// db.locations.belongsTo(db.users, { foreignKey: 'UserId' });
 
 export { connectDB, sequelize, db };
