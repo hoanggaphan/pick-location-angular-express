@@ -16,13 +16,11 @@ import LocationService from '../../services/location.service';
   imports: [GoogleMapsModule, CommonModule, MatButtonModule, MatIconModule],
 })
 export class MapSubmissionComponent implements OnInit {
-  zoom = 12;
+  zoom = 15;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
     scrollwheel: false,
     disableDoubleClickZoom: true,
-    maxZoom: 15,
-    minZoom: 8,
   };
   marker: google.maps.LatLngLiteral | null = null;
   markerOptions: google.maps.MarkerOptions = {};
@@ -67,10 +65,10 @@ export class MapSubmissionComponent implements OnInit {
       return;
     }
     const location = { userId: this.user.id, ...this.marker };
+
     this._locationService.submit(location).subscribe({
       next: (res) => {
         this.marker = null;
-        console.log(res);
 
         this._snackBar.open('Submit location successfully!', 'Close', {
           horizontalPosition: 'center',

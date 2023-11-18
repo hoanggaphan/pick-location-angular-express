@@ -119,7 +119,6 @@ export class RegisterComponent {
         })
         .subscribe({
           next: (res) => {
-            localStorage.setItem('user', JSON.stringify(res));
             this._router.navigate(['/login']);
             this._snackBar.open('register successfully!', 'Close', {
               horizontalPosition: 'center',
