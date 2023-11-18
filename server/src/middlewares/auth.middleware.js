@@ -6,7 +6,7 @@ import * as jwtHelper from '../helpers/jwt.helper.js';
  * @param {*} res
  * @param {*} next
  */
-export const checkToken = async (req, res, next) => {
+export const checkAccessToken = async (req, res, next) => {
   const authHeader =
     req.headers['authorization'] ||
     req.body.token ||
@@ -15,9 +15,7 @@ export const checkToken = async (req, res, next) => {
 
   if (!authHeader)
     return res.status(401).json({
-      error: {
-        message: 'No authorization header',
-      },
+      message: 'No authorization header',
     });
 
   const token = authHeader.split(' ')[1];
@@ -31,10 +29,13 @@ export const checkToken = async (req, res, next) => {
     req.jwtDecoded = decoded;
     next();
   } catch (error) {
+    if (error.message === 'jwt expired') {
+      return res.status(401).json({
+        message: 'Access token expired',
+      });
+    }
     return res.status(401).json({
-      error: {
-        message: error.message,
-      },
+      message: error.message,
     });
   }
 };

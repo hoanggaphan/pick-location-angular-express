@@ -67,8 +67,8 @@ export class MapSubmissionComponent implements OnInit {
       return;
     }
     const location = { userId: this.user.id, ...this.marker };
-    this._locationService.submit(location).subscribe(
-      (res) => {
+    this._locationService.submit(location).subscribe({
+      next: (res) => {
         this.marker = null;
         console.log(res);
 
@@ -79,14 +79,14 @@ export class MapSubmissionComponent implements OnInit {
           panelClass: 'alert-type-fill-success',
         });
       },
-      (error) => {
-        this._snackBar.open(error.error.error.message, 'Close', {
+      error: (error) => {
+        this._snackBar.open(error.error.message, 'Close', {
           horizontalPosition: 'center',
           verticalPosition: 'top',
           duration: 5000,
           panelClass: 'alert-type-fill-error',
         });
-      }
-    );
+      },
+    });
   }
 }

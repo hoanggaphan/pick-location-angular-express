@@ -12,8 +12,8 @@ const validate = (validations) => {
       return next();
     }
 
-    const { msg: message } = errors.array({ onlyFirstError: true })[0];
-    res.status(400).json({ error: { message } });
+    const { msg } = errors.array({ onlyFirstError: true })[0];
+    res.status(400).json({ message: msg });
   };
 };
 

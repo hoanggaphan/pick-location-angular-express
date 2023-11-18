@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
-app.use('/api/location', authDiddleware.checkToken, locationRoutes);
-app.use('/api/user', authDiddleware.checkToken, userRoutes);
+app.use('/api/location', authDiddleware.checkAccessToken, locationRoutes);
+app.use('/api/user', authDiddleware.checkAccessToken, userRoutes);
 
 app.use(errorHandler);
 

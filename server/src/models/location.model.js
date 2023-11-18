@@ -4,7 +4,7 @@ export default (sequelize) => {
   const Location = sequelize.define('Location', {
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     longitude: {
       type: DataTypes.FLOAT,
@@ -16,11 +16,11 @@ export default (sequelize) => {
     },
     address: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     type: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     status: {
       type: DataTypes.ENUM('approve', 'deny', 'pending'),

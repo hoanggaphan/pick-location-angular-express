@@ -10,9 +10,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 import AuthService from '../../services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -66,9 +66,9 @@ export class LoginComponent {
           username: this.form.value.username,
           password: this.form.value.password,
         })
-        .subscribe(
-          (res) => {
-            localStorage.setItem('user', JSON.stringify(res));
+        .subscribe({
+          next: (res) => {
+            this._authService.saveUser(res);
             this._router.navigate(['']);
             this._snackBar.open('Login successfully!', 'Close', {
               horizontalPosition: 'center',
@@ -77,10 +77,10 @@ export class LoginComponent {
               panelClass: 'alert-type-fill-success',
             });
           },
-          (error) => {
-            this.errorMessage = error.error.error.message;
-          }
-        );
+          error: (error) => {
+            this.errorMessage = error.error.message;
+          },
+        });
     }
   }
 }

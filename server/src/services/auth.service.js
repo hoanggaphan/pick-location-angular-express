@@ -35,7 +35,7 @@ export const login = async (data, foundUser) => {
       jwtHelper.refreshTokenSecret,
       jwtHelper.refreshTokenLife
     );
-    
+
     delete foundUser.password;
 
     return {
@@ -50,17 +50,21 @@ export const login = async (data, foundUser) => {
 
 export const refreshToken = async (data) => {
   try {
-    const decoded = await jwtHelper.verifyToken(
+    const decodedData = await jwtHelper.verifyToken(
       data.refreshToken,
       jwtHelper.refreshTokenSecret
     );
+
     const accessToken = await jwtHelper.generateToken(
-      decoded.data,
+      decodedData,
       jwtHelper.accessTokenSecret,
       jwtHelper.accessTokenLife
     );
     return { accessToken };
   } catch (error) {
+    if (error.message === 'jwt expired') {
+      throw new CustomError('Refresh token expired', 401);
+    }
     throw new CustomError(error.message, 401);
   }
 };

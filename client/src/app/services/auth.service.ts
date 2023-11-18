@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { LoginReq } from '../models/LoginReq';
-import { Router } from '@angular/router';
 import { RegisterReq } from '../models/RegisterReq';
+import User from '../models/User';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,10 @@ export default class AuthService {
   _router = inject(Router);
 
   login(user: LoginReq) {
-    return this._httpClient.post(`${environment.apiUrl}/auth/login`, user);
+    return this._httpClient.post<User>(
+      `${environment.apiUrl}/auth/login`,
+      user
+    );
   }
 
   register(user: RegisterReq) {
@@ -31,6 +35,21 @@ export default class AuthService {
 
   getUser() {
     return localStorage.getItem('user') ?? '';
+  }
+
+  saveUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  saveNewToken(accessToken: string): void {
+    const user = JSON.parse(this.getUser());
+    localStorage.setItem('user', JSON.stringify({ ...user, accessToken }));
+  }
+
+  refreshToken(refreshToken: string) {
+    return this._httpClient.post(`${environment.apiUrl}/auth/refresh-token`, {
+      refreshToken,
+    });
   }
 
   haveAccess() {

@@ -117,8 +117,8 @@ export class RegisterComponent {
           password: this.form.value.password,
           confirm_password: this.form.value.confirm_password,
         })
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             localStorage.setItem('user', JSON.stringify(res));
             this._router.navigate(['/login']);
             this._snackBar.open('register successfully!', 'Close', {
@@ -128,10 +128,10 @@ export class RegisterComponent {
               panelClass: 'alert-type-fill-success',
             });
           },
-          (error) => {
-            this.errorMessage = error.error.error.message;
-          }
-        );
+          error: (error) => {
+            this.errorMessage = error.error.message;
+          },
+        });
     }
   }
 }

@@ -34,8 +34,17 @@ export const createLocation = async (data) => {
 
 export const submit = async (data) => {
   try {
+    const GG_API_KEY = process.env.GG_API_KEY;
     const { userId, lat, lng } = data;
-    return data;
+
+    // Create a new location record
+    const newLocation = await createLocation({
+      userId,
+      latitude: lat,
+      longitude: lng,
+    });
+
+    return newLocation;
   } catch (error) {
     throw error;
   }
