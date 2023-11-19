@@ -27,15 +27,6 @@ export const createLocation = async (req, res, next) => {
   }
 };
 
-export const submit = async (req, res, next) => {
-  try {
-    const data = await locationService.submit(req.body);
-    return res.json(data);
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const updateLocation = async (req, res, next) => {
   try {
     const data = await locationService.updateLocation(req.params.id, req.body);

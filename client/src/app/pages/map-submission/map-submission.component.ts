@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import AuthService from '../../services/auth.service';
 import { GooglemapService } from '../../services/googlemap.service';
-import LocationService from '../../services/location.service';
+import SubmissionService from '../../services/submission.service';
 
 @Component({
   selector: 'app-map-submission',
@@ -26,7 +26,7 @@ export class MapSubmissionComponent implements OnInit {
   markerOptions: google.maps.MarkerOptions = {};
   _snackBar = inject(MatSnackBar);
   _googleMapService = inject(GooglemapService);
-  _locationService = inject(LocationService);
+  _submissionService = inject(SubmissionService);
   _authService = inject(AuthService);
   apiLoaded$: Observable<boolean> = this._googleMapService.apiLoaded$;
   user = JSON.parse(this._authService.getUser());
@@ -66,7 +66,7 @@ export class MapSubmissionComponent implements OnInit {
     }
     const location = { userId: this.user.id, ...this.marker };
 
-    this._locationService.submit(location).subscribe({
+    this._submissionService.submit(location).subscribe({
       next: (res) => {
         this.marker = null;
 

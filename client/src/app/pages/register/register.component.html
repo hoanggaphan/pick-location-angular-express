@@ -64,6 +64,15 @@
             }
           </mat-form-field>
         </p>
+        <p>
+          <mat-form-field class="w-full">
+            <mat-label>Role</mat-label>
+            <mat-select formControlName="role">
+              <mat-option value="user">User</mat-option>
+              <mat-option value="admin">Admin</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </p>
         <div class="flex justify-end">
           <button type="submit" mat-button [disabled]="!form.valid">
             Register

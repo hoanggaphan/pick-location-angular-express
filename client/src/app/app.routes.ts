@@ -29,6 +29,20 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'admin',
+    component: LayoutComponent,
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent
+          ),
+      },
+    ],
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('./pages/login/login.component').then((m) => m.LoginComponent),
@@ -41,13 +55,6 @@ export const routes: Routes = [
         (m) => m.RegisterComponent
       ),
   },
-  {
-    path: 'admin',
-    loadComponent: () =>
-      import('./pages/admin/admin.component').then((m) => m.AdminComponent),
-    canActivate: [AuthGuard, RoleGuard],
-  },
-
   {
     path: '**',
     pathMatch: 'full',

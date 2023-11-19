@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';
 import AuthService from '../../services/auth.service';
@@ -27,6 +28,7 @@ import matchPassword from '../../shared/matchPassword.validator';
     ReactiveFormsModule,
     MatCardModule,
     RouterModule,
+    MatSelectModule,
   ],
 })
 export class RegisterComponent {
@@ -50,6 +52,7 @@ export class RegisterComponent {
         ),
       ]),
       confirm_password: new FormControl('', [Validators.required]),
+      role: new FormControl('user', [Validators.required]),
     },
     [matchPassword('password', 'confirm_password')]
   );
@@ -109,13 +112,15 @@ export class RegisterComponent {
       this.form.valid &&
       this.form.value.username &&
       this.form.value.password &&
-      this.form.value.confirm_password
+      this.form.value.confirm_password &&
+      this.form.value.role
     ) {
       this._authService
         .register({
           username: this.form.value.username,
           password: this.form.value.password,
           confirm_password: this.form.value.confirm_password,
+          role: this.form.value.role,
         })
         .subscribe({
           next: (res) => {

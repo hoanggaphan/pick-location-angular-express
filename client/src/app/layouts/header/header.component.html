@@ -1,14 +1,23 @@
 <mat-toolbar color="primary" class="flex justify-between">
+  @if (user.role === "admin") {
+  <a routerLink="/admin/dashboard" routerLinkActive="active-link" mat-button>
+    <mat-icon>dashboard</mat-icon>
+    Dashboard
+  </a>
+  } @else {
   <a routerLink="/map-submission" routerLinkActive="active-link" mat-button>
     <mat-icon>public</mat-icon>
     Map
   </a>
+  }
 
   <div class="">
+    @if (user.role === "user") {
     <a routerLink="/user" routerLinkActive="active-link" mat-button>
       <mat-icon>account_circle</mat-icon>
       {{ user.username }}
     </a>
+    }
 
     <button mat-button (click)="logout()">
       <mat-icon>logout</mat-icon>

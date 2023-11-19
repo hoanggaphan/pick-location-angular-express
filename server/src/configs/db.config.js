@@ -1,6 +1,7 @@
 import Sequelize from 'sequelize';
 import User from '../models/user.model.js';
 import Location from '../models/location.model.js';
+import Submission from '../models/submission.model.js';
 
 const configs = {
   HOST: process.env.DB_HOST,
@@ -30,7 +31,7 @@ const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
 
 const connectDB = () => {
   sequelize
-    .sync({ force: true })
+    .sync()
     .then(() => {
       console.log('Synced db.');
     })
@@ -42,9 +43,7 @@ const connectDB = () => {
 const db = {
   users: User(sequelize),
   locations: Location(sequelize),
+  submissions: Submission(sequelize),
 };
-
-// db.users.hasMany(db.locations, { foreignKey: 'UserId', onDelete: 'CASCADE' });
-// db.locations.belongsTo(db.users, { foreignKey: 'UserId' });
 
 export { connectDB, sequelize, db };

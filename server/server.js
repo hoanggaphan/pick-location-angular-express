@@ -7,6 +7,7 @@ import { errorHandler } from './src/middlewares/errorHandler.middleware.js';
 import authRoutes from './src/routes/auth.route.js';
 import locationRoutes from './src/routes/location.route.js';
 import userRoutes from './src/routes/user.route.js';
+import submissionRoutes from './src/routes/submission.route.js';
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/location', authDiddleware.checkAccessToken, locationRoutes);
+app.use('/api/submission', authDiddleware.checkAccessToken, submissionRoutes);
 app.use('/api/user', authDiddleware.checkAccessToken, userRoutes);
 
 app.use(errorHandler);

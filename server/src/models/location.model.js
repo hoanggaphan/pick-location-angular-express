@@ -35,11 +35,11 @@ export default (sequelize) => {
       type: DataTypes.FLOAT,
       allowNull: true,
     },
-    userId: {
+    submissionId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users',
+        model: 'Submissions',
         key: 'id',
       },
     },

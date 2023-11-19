@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiUrl: 'http://my-prod-url',
-  ggApiKey: 'AIzaSyBzSxhQlnuWdFA12wkkLf0ieTajYuO_aQc',
+  ggApiKey: 'AIzaSyD__eHq7pZ0Jsi-38xJYekdkPaLjgZF0bk',
 };

@@ -69,7 +69,11 @@ export class LoginComponent {
         .subscribe({
           next: (res) => {
             this._authService.saveUser(res);
-            this._router.navigate(['']);
+            if (res.role === 'admin') {
+              this._router.navigate(['/admin/dashboard']);
+            } else {
+              this._router.navigate(['']);
+            }
             this._snackBar.open('Login successfully!', 'Close', {
               horizontalPosition: 'center',
               verticalPosition: 'top',
