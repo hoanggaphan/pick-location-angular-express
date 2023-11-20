@@ -1,7 +1,4 @@
 import Sequelize from 'sequelize';
-import User from '../models/user.model.js';
-import Location from '../models/location.model.js';
-import Submission from '../models/submission.model.js';
 
 const configs = {
   HOST: process.env.DB_HOST,
@@ -40,10 +37,4 @@ const connectDB = () => {
     });
 };
 
-const db = {
-  users: User(sequelize),
-  locations: Location(sequelize),
-  submissions: Submission(sequelize),
-};
-
-export { connectDB, sequelize, db };
+export { connectDB, sequelize };

@@ -1,24 +1,18 @@
 import { DataTypes } from 'sequelize';
+import { sequelize } from '../configs/db.config.js';
+import User from './user.model.js';
 
-export default (sequelize) => {
-  const Submission = sequelize.define('Submission', {
-    longitude: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-    latitude: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id',
-      },
-    },
-  });
+const Submission = sequelize.define('Submission', {
+  longitude: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  latitude: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+});
 
-  return Submission;
-};
+Submission.belongsTo(User, { foreignKey: 'userId' });
+
+export default Submission;

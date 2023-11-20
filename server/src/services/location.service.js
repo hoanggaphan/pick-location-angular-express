@@ -1,7 +1,5 @@
-import { db } from '../configs/db.config.js';
 import CustomError from '../helpers/CustomError.js';
-
-const Location = db.locations;
+import Location from '../models/location.model.js';
 
 export const getAllLocation = async () => {
   try {

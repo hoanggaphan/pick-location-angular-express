@@ -1,13 +1,39 @@
 import axios from 'axios';
-import { db } from '../configs/db.config.js';
 import CustomError from '../helpers/CustomError.js';
+import Location from '../models/location.model.js';
+import Submission from '../models/submission.model.js';
+import User from '../models/user.model.js';
 
-const Submission = db.submissions;
-const Location = db.locations;
-
-export const getAllSubmission = async () => {
+export const getAllSubmission = async (params) => {
   try {
-    return await Submission.findAll();
+    const { page = 1, limit = 10, sort = 'createdAt', order = 'desc' } = params;
+    const offset = (page - 1) * limit;
+
+    const result = await Submission.findAndCountAll({
+      limit: limit,
+      offset: offset,
+      order: [[sort, order.toUpperCase()]],
+      include: {
+        model: User,
+        attributes: ['id', 'username'],
+      },
+    });
+
+    const totalPages = Math.ceil(result.count / limit);
+
+    const pagination = {
+      limit,
+      page: +page,
+      totalPages,
+      totalRows: result.count,
+    };
+
+    const rows = result.rows.map((s) => {
+      const { User, ...submissionWithoutUser } = s.get();
+      return { ...submissionWithoutUser, username: User.username };
+    });
+
+    return { rows, pagination };
   } catch (error) {
     throw error;
   }

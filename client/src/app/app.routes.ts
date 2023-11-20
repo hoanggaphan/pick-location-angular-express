@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LayoutComponent } from './layouts/layout/layout.component';
 import AuthGuard from './shared/auth.guard';
 import RoleGuard from './shared/role.guard';
+import { LayoutAdminComponent } from './layouts/layout-admin/layout-admin.component';
 
 export const routes: Routes = [
   {
@@ -30,7 +31,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin',
-    component: LayoutComponent,
+    component: LayoutAdminComponent,
     children: [
       {
         path: 'dashboard',

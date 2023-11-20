@@ -1,7 +1,5 @@
-import { db } from '../configs/db.config.js';
 import CustomError from '../helpers/CustomError.js';
-
-const User = db.users;
+import User from '../models/user.model.js';
 
 export const getAllUser = async () => {
   try {

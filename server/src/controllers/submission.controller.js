@@ -2,7 +2,7 @@ import * as submissionService from '../services/submission.service.js';
 
 export const getAllSubmission = async (req, res, next) => {
   try {
-    const data = await submissionService.getAllSubmission();
+    const data = await submissionService.getAllSubmission(req.query);
     return res.json(data);
   } catch (error) {
     next(error);

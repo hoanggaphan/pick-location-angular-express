@@ -7,6 +7,5 @@ import { HeaderComponent } from '../header/header.component';
   standalone: true,
   imports: [HeaderComponent, RouterModule],
   templateUrl: './layout-admin.component.html',
-  styleUrl: './layout-admin.component.scss',
 })
 export class LayoutAdminComponent {}
