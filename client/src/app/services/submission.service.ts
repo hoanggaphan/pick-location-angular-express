@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import {
+  SubmissionDetail,
   SubmissionPagination,
   SubmissionSubmitReq,
 } from '../models/Submission';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +35,12 @@ export default class SubmissionService {
     return this._httpClient.get<SubmissionPagination>(
       `${environment.apiUrl}/submission`,
       queryParams
+    );
+  }
+
+  getById(id: number) {
+    return this._httpClient.get<SubmissionDetail>(
+      `${environment.apiUrl}/submission/${id}`
     );
   }
 }

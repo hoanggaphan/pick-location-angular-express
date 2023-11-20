@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
 import CustomError from '../helpers/CustomError.js';
 import * as jwtHelper from '../helpers/jwt.helper.js';
-import User from '../models/user.model.js';
+import { db } from '../configs/db.config.js';
+
+const User = db.users;
 
 const saltRounds = 10;
 

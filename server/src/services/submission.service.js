@@ -1,8 +1,10 @@
 import axios from 'axios';
 import CustomError from '../helpers/CustomError.js';
-import Location from '../models/location.model.js';
-import Submission from '../models/submission.model.js';
-import User from '../models/user.model.js';
+import { db } from '../configs/db.config.js';
+
+const User = db.users;
+const Submission = db.submissions;
+const Location = db.locations;
 
 export const getAllSubmission = async (params) => {
   try {
@@ -41,7 +43,9 @@ export const getAllSubmission = async (params) => {
 
 export const getSubmission = async (id) => {
   try {
-    const submission = await Submission.findByPk(id);
+    const submission = await Submission.findByPk(id, {
+      include: Location,
+    });
     if (!submission) {
       throw new CustomError('Location not found', 404);
     }

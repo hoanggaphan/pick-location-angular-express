@@ -1,6 +1,8 @@
 import { body } from 'express-validator';
 import validate from '../helpers/validate.helper.js';
-import User from '../models/user.model.js';
+import { db } from '../configs/db.config.js';
+
+const User = db.users;
 
 export const register = validate([
   body(

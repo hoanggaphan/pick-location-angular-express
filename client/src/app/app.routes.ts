@@ -40,6 +40,13 @@ export const routes: Routes = [
             (m) => m.DashboardComponent
           ),
       },
+      {
+        path: 'submission/:id',
+        loadComponent: () =>
+          import(
+            './pages/submission-details/submission-details.component'
+          ).then((m) => m.SubmissionDetailsComponent),
+      },
     ],
     canActivate: [AuthGuard, RoleGuard],
   },

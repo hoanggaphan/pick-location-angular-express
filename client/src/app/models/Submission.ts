@@ -1,17 +1,22 @@
+import { Location } from './Location';
+
 export interface SubmissionSubmitReq {
   userId: number;
   lat: number;
   lng: number;
 }
 
-export interface SubmissionPaginationRow {
+export interface Submission {
   id: number;
   userId: number;
-  username: number;
   longitude: number;
   latitude: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface SubmissionPaginationRow extends Submission {
+  username: number;
 }
 
 export interface SubmissionPagination {
@@ -22,4 +27,8 @@ export interface SubmissionPagination {
     totalPages: number;
     totalRows: number;
   };
+}
+
+export interface SubmissionDetail extends Submission {
+  Locations: Location[];
 }

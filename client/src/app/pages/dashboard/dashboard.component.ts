@@ -1,12 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { SubmissionPaginationRow } from '../../models/Submission';
-import { Router } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import SubmissionService from '../../services/submission.service';
+import { MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
+import { SubmissionPaginationRow } from '../../models/Submission';
+import SubmissionService from '../../services/submission.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -42,7 +42,7 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   detail(id: number) {
-    console.log(id);
+    this._router.navigate([`/admin/submission/${id.toString()}`]);
   }
 
   ngAfterViewInit() {
