@@ -40,6 +40,8 @@ const connectDB = () => {
   db.locations.belongsTo(db.submissions, { foreignKey: 'submissionId' });
   db.users.hasMany(db.submissions, { foreignKey: 'userId' });
   db.submissions.belongsTo(db.users, { foreignKey: 'userId' });
+  db.users.hasMany(db.locations, { foreignKey: 'userId' });
+  db.locations.belongsTo(db.users, { foreignKey: 'userId' });
 
   sequelize
     .sync()

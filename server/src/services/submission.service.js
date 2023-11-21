@@ -102,9 +102,10 @@ export const submit = async (data) => {
 
     const nearbyLocations = [];
     for (const l of res.data.places) {
-      const locationInDB = await Location.findOne({ where: { placeId: l.id } });
+      const locationInDB = await Location.findOne({ where: { placeId: l.id, userId } });
       if (!locationInDB) {
         nearbyLocations.push({
+          userId,
           submissionId: newSubmission.id,
           placeId: l.id,
           name: l.displayName.text,

@@ -3,9 +3,23 @@ import CustomError from '../helpers/CustomError.js';
 
 const Location = db.locations;
 
-export const getAllLocation = async () => {
+export const getAllLocation = async (params) => {
   try {
-    return await Location.findAll();
+    const { userId = null, status = null } = params;
+
+    let whereCondition = {};
+
+    if (userId) {
+      whereCondition.userId = userId;
+    }
+
+    if (status) {
+      whereCondition.status = status;
+    }
+
+    return await Location.findAll({
+      where: whereCondition,
+    });
   } catch (error) {
     throw error;
   }

@@ -9,7 +9,18 @@
 >
   @if(marker) {
   <map-marker [position]="marker" [options]="markerOptions"> </map-marker>
-  }
+  } @if(markersApproved) { @for (approved of markersApproved; track approved.id)
+  {
+
+  <map-marker
+    #markerElem="mapMarker"
+    [position]="approved.position"
+    [options]="approved.options"
+    (mapClick)="openInfoWindow(markerElem, approved.content)"
+  >
+  </map-marker>
+  } }
+  <map-info-window [innerHTML]="infoContent"></map-info-window>
 </google-map>
 
 <div class="flex p-5 justify-center items-center gap-2">

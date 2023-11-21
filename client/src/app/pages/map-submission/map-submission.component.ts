@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
-import { GoogleMapsModule } from '@angular/google-maps';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  GoogleMapsModule,
+  MapInfoWindow,
+  MapMarker,
+} from '@angular/google-maps';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import AuthService from '../../services/auth.service';
 import { GooglemapService } from '../../services/googlemap.service';
+import LocationService from '../../services/location.service';
 import SubmissionService from '../../services/submission.service';
 
 @Component({
@@ -16,6 +21,12 @@ import SubmissionService from '../../services/submission.service';
   imports: [GoogleMapsModule, CommonModule, MatButtonModule, MatIconModule],
 })
 export class MapSubmissionComponent implements OnInit {
+  _snackBar = inject(MatSnackBar);
+  _googleMapService = inject(GooglemapService);
+  _submissionService = inject(SubmissionService);
+  _authService = inject(AuthService);
+  _locationService = inject(LocationService);
+  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
   zoom = 15;
   center!: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
@@ -24,12 +35,23 @@ export class MapSubmissionComponent implements OnInit {
   };
   marker: google.maps.LatLngLiteral | null = null;
   markerOptions: google.maps.MarkerOptions = {};
-  _snackBar = inject(MatSnackBar);
-  _googleMapService = inject(GooglemapService);
-  _submissionService = inject(SubmissionService);
-  _authService = inject(AuthService);
+  markersApproved: any[] = [];
   apiLoaded$: Observable<boolean> = this._googleMapService.apiLoaded$;
   user = JSON.parse(this._authService.getUser());
+  iconStyle = {
+    fontFamily: 'Material Icons',
+    color: '#ffffff',
+    fontSize: '18px',
+  };
+  icons: Icons = {
+    base: 'https://developers.google.com/static/maps/documentation/javascript/images/default-marker.png',
+    school: '../assets/school.png',
+    hospital: '../assets/hospital.png',
+    park: '../assets/park.png',
+    supermarket: '../assets/supermarket.png',
+  };
+  typesToCheck = ['school', 'hospital', 'park', 'supermarket'];
+  infoContent = '';
 
   ngOnInit() {
     this.apiLoaded$.subscribe((apiLoaded) => {
@@ -46,6 +68,46 @@ export class MapSubmissionComponent implements OnInit {
       }
     });
     this._googleMapService.loadApi();
+
+    this._locationService
+      .getAll({ status: 'approve', userId: this.user.id })
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.markersApproved = data.map((m) => {
+              let icon = this.icons['base'];
+              m.types.forEach((type) => {
+                if (this.typesToCheck.includes(type)) {
+                  icon = this.icons[type];
+                }
+              });
+
+              return {
+                id: m.id,
+                position: {
+                  lat: m.latitude,
+                  lng: m.longitude,
+                },
+                options: {
+                  title: m.name,
+                  icon,
+                },
+                content: `<h5>${m.name}</h5><p>${m.address}</p>`,
+              };
+            });
+          }
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+  }
+
+  openInfoWindow(marker: MapMarker, content: string) {
+    if (this.infoWindow != undefined) {
+      this.infoContent = content;
+      this.infoWindow.open(marker);
+    }
   }
 
   pickMarker(event: google.maps.MapMouseEvent) {
@@ -87,4 +149,8 @@ export class MapSubmissionComponent implements OnInit {
       },
     });
   }
+}
+
+interface Icons {
+  [key: string]: string;
 }

@@ -2,7 +2,7 @@ import * as locationService from '../services/location.service.js';
 
 export const getAllLocation = async (req, res, next) => {
   try {
-    const data = await locationService.getAllLocation();
+    const data = await locationService.getAllLocation(req.query);
     return res.json(data);
   } catch (error) {
     next(error);
