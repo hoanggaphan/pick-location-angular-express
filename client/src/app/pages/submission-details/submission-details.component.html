@@ -8,20 +8,33 @@
   }
 
   <table mat-table [dataSource]="data">
-    @for (column of columnsToDisplay; track column) {
+    @for (column of columnsToDisplay; track column) { @if (column === "status")
+    {
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-form-field>
+          <mat-select
+            [value]="element['status']"
+            (selectionChange)="onStatusChange($event, element['id'])"
+          >
+            <mat-option value="approve">Approve</mat-option>
+            <mat-option value="pending">Pending</mat-option>
+            <mat-option value="deny">Deny</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+    } @else {
     <ng-container matColumnDef="{{ column }}">
       <th mat-header-cell *matHeaderCellDef>
         {{ capitalizeFirstLetter(column) }}
       </th>
       <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
     </ng-container>
-    }
+    } }
 
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: columnsToDisplay"
-      class="hover:bg-[whitesmoke] cursor-pointer"
-    ></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
   </table>
 </div>

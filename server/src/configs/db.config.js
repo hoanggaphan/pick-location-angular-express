@@ -37,12 +37,12 @@ const db = {
 
 const connectDB = () => {
   db.submissions.hasMany(db.locations, { foreignKey: 'submissionId' });
-  db.locations.belongsTo(db.submissions, { foreignKey: 'submissionId' }); 
+  db.locations.belongsTo(db.submissions, { foreignKey: 'submissionId' });
   db.users.hasMany(db.submissions, { foreignKey: 'userId' });
   db.submissions.belongsTo(db.users, { foreignKey: 'userId' });
 
   sequelize
-    .sync({ force: true })
+    .sync()
     .then(() => {
       console.log('Synced db.');
     })

@@ -1,21 +1,24 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
 import { Location } from '../../models/Location';
+import LocationService from '../../services/location.service';
 import SubmissionService from '../../services/submission.service';
 
 @Component({
   selector: 'app-submission-details',
   standalone: true,
   templateUrl: './submission-details.component.html',
-  imports: [MatTableModule, MatProgressSpinnerModule],
+  imports: [MatTableModule, MatProgressSpinnerModule, MatSelectModule],
 })
 export class SubmissionDetailsComponent implements AfterViewInit {
-  route = inject(ActivatedRoute);
+  _route = inject(ActivatedRoute);
   _submissionService = inject(SubmissionService);
-  id = Number(this.route.snapshot.params['id']);
+  _locationService = inject(LocationService);
+  id = Number(this._route.snapshot.params['id']);
   columnsToDisplay: string[] = [
     'id',
     'name',
@@ -50,5 +53,14 @@ export class SubmissionDetailsComponent implements AfterViewInit {
         })
       )
       .subscribe((data) => (this.data = data));
+  }
+
+  onStatusChange(event: MatSelectChange, id: string) {
+    const selectedStatus = event.value;
+    this._locationService.updateStatus(id, selectedStatus).subscribe({
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 }
