@@ -9,6 +9,7 @@ const configs = {
   PASSWORD: process.env.DB_PASSWORD,
   DB: process.env.DB_NAME,
   dialect: 'postgres',
+  port: process.env.DB_PORT || 5432, // Add this line to specify the port
   pool: {
     max: 5,
     min: 0,
