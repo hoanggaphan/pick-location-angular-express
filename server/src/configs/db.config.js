@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import SubmissionModel from '../models/submission.model.js';
 import LocationModel from '../models/location.model.js';
 import UserModel from '../models/user.model.js';
+import pg from 'pg';
 
 const configs = {
   HOST: process.env.DB_HOST,
@@ -9,6 +10,7 @@ const configs = {
   PASSWORD: process.env.DB_PASSWORD,
   DB: process.env.DB_NAME,
   dialect: 'postgres',
+  dialectModule: pg,
   port: process.env.DB_PORT || 5432, // Add this line to specify the port
   pool: {
     max: 5,
