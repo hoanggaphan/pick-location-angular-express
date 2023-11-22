@@ -1,8 +1,8 @@
-import Sequelize from 'sequelize';
-import SubmissionModel from '../models/submission.model.js';
-import LocationModel from '../models/location.model.js';
-import UserModel from '../models/user.model.js';
 import pg from 'pg';
+import Sequelize from 'sequelize';
+import LocationModel from '../models/location.model.js';
+import SubmissionModel from '../models/submission.model.js';
+import UserModel from '../models/user.model.js';
 
 const configs = {
   HOST: process.env.DB_HOST,
@@ -23,7 +23,8 @@ const configs = {
 const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   host: configs.HOST,
   dialect: configs.dialect,
-
+  port: configs.port,
+  logging: process.env.NODE_ENV === 'development' ? console.log : false,
   pool: {
     max: configs.pool.max,
     min: configs.pool.min,
@@ -56,4 +57,4 @@ const connectDB = () => {
     });
 };
 
-export { connectDB, sequelize, db };
+export { connectDB, db, sequelize };
