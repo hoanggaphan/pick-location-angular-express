@@ -58,6 +58,9 @@ export class SubmissionDetailsComponent implements AfterViewInit {
   onStatusChange(event: MatSelectChange, id: string) {
     const selectedStatus = event.value;
     this._locationService.updateStatus(id, selectedStatus).subscribe({
+      next: (data) => {
+        this._locationService.emitUpdateLocation(data);
+      },
       error: (error) => {
         console.log(error);
       },

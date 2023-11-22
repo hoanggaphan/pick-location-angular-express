@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { Location } from '../../models/Location';
 import AuthService from '../../services/auth.service';
 import { GooglemapService } from '../../services/googlemap.service';
 import LocationService from '../../services/location.service';
@@ -44,7 +45,7 @@ export class MapSubmissionComponent implements OnInit {
     fontSize: '18px',
   };
   icons: Icons = {
-    base: 'https://developers.google.com/static/maps/documentation/javascript/images/default-marker.png',
+    base: '../assets/default-marker.png',
     school: '../assets/school.png',
     hospital: '../assets/hospital.png',
     park: '../assets/park.png',
@@ -74,33 +75,55 @@ export class MapSubmissionComponent implements OnInit {
       .subscribe({
         next: (data) => {
           if (data) {
-            this.markersApproved = data.map((m) => {
-              let icon = this.icons['base'];
-              m.types.forEach((type) => {
-                if (this.typesToCheck.includes(type)) {
-                  icon = this.icons[type];
-                }
-              });
-
-              return {
-                id: m.id,
-                position: {
-                  lat: m.latitude,
-                  lng: m.longitude,
-                },
-                options: {
-                  title: m.name,
-                  icon,
-                },
-                content: `<h5>${m.name}</h5><p>${m.address}</p>`,
-              };
-            });
+            this.markersApproved = data.map((m) => this.formatedMarker(m));
           }
         },
         error: (err) => {
           console.error(err);
         },
       });
+
+    this._locationService.onResponseUpdateLocation().subscribe({
+      next: (location) => {
+        if (location.status === 'approve') {
+          this.markersApproved.push(
+            this.formatedMarker(location, {
+              animation: google.maps.Animation.DROP,
+            })
+          );
+        } else {
+          this.markersApproved = this.markersApproved.filter(
+            (m) => location.id !== m.id
+          );
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  formatedMarker(location: Location, options?: google.maps.MarkerOptions) {
+    let icon = this.icons['base'];
+    location.types.forEach((type) => {
+      if (this.typesToCheck.includes(type)) {
+        icon = this.icons[type];
+      }
+    });
+
+    return {
+      id: location.id,
+      position: {
+        lat: location.latitude,
+        lng: location.longitude,
+      },
+      options: {
+        ...options,
+        title: location.name,
+        icon,
+      },
+      content: `<h5>${location.name}</h5><p>${location.address}</p>`,
+    };
   }
 
   openInfoWindow(marker: MapMarker, content: string) {

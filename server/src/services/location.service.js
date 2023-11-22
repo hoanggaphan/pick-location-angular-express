@@ -48,13 +48,11 @@ export const createLocation = async (data) => {
 
 export const updateLocation = async (id, data) => {
   try {
-    const location = await Location.update(data, { where: { id } });
+    const location = await Location.update(data, { where: { id }, returning: true });
     if (!location[0]) {
       throw new CustomError('Location not found', 404);
     }
-    return {
-      message: 'Location was updated successfully!',
-    };
+    return location[1][0]
   } catch (error) {
     throw error;
   }
