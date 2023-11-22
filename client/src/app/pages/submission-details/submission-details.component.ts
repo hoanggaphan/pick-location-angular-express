@@ -62,7 +62,7 @@ export class SubmissionDetailsComponent implements AfterViewInit {
         this._locationService.emitUpdateLocation(data);
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }

@@ -1,23 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { io } from 'socket.io-client';
 import { environment } from '../../environments/environment';
 import { Location } from '../models/Location';
-import AuthService from './auth.service';
+import SocketService from './socket.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export default class LocationService {
   _httpClient = inject(HttpClient);
-  _authService = inject(AuthService);
-  user = JSON.parse(this._authService.getUser());
-  socket = io(environment.serverUrl, {
-    query: {
-      userId: this.user.id,
-    },
-  });
+  _socketService = inject(SocketService);
 
   updateStatus(id: string, status: string) {
     return this._httpClient.put<Location>(
@@ -29,15 +21,11 @@ export default class LocationService {
   }
 
   emitUpdateLocation(location: Location) {
-    this.socket.emit('update-location', location);
+    this._socketService.emit('update-location', location);
   }
 
   onResponseUpdateLocation() {
-    return new Observable<Location>((observer) => {
-      this.socket.on('response-update-location', (location: Location) => {
-        observer.next(location);
-      });
-    });
+    return this._socketService.on<Location>('response-update-location');
   }
 
   getAll(params?: any) {

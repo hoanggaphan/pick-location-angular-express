@@ -1,6 +1,6 @@
 import axios from 'axios';
-import CustomError from '../helpers/CustomError.js';
 import { db } from '../configs/db.config.js';
+import CustomError from '../helpers/CustomError.js';
 
 const User = db.users;
 const Submission = db.submissions;
@@ -101,8 +101,11 @@ export const submit = async (data) => {
     });
 
     const nearbyLocations = [];
+
     for (const l of res.data.places) {
-      const locationInDB = await Location.findOne({ where: { placeId: l.id, userId } });
+      const locationInDB = await Location.findOne({
+        where: { placeId: l.id, userId },
+      });
       if (!locationInDB) {
         nearbyLocations.push({
           userId,
