@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverUrl: 'http://localhost:3000',
-  apiUrl: 'http://localhost:3000/api',
-  ggApiKey: 'AIzaSyD__eHq7pZ0Jsi-38xJYekdkPaLjgZF0bk',
+  serverUrl: 'server-pick-location',
+  apiUrl: 'server-pick-location/api',
+  ggApiKey: 'AIzaSyDbUHqvgfL_LgqAW_tYZQB-cq8GiAeEm8Q',
 };
