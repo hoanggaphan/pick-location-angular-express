@@ -25,11 +25,11 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    // app.use(
-    //   cors({
-    //     origin: process.env.CLIENT_URL || '*',
-    //   })
-    // );
+    app.use(
+      cors({
+        origin: process.env.CLIENT_URL || '*',
+      })
+    );
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
