@@ -5,7 +5,6 @@ import { environment } from '../../environments/environment';
 import { LoginReq } from '../models/LoginReq';
 import { RegisterReq } from '../models/RegisterReq';
 import User from '../models/User';
-import SocketService from './socket.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,6 @@ import SocketService from './socket.service';
 export default class AuthService {
   _httpClient = inject(HttpClient);
   _router = inject(Router);
-  _socket = inject(SocketService);
 
   login(user: LoginReq) {
     return this._httpClient.post<User>(
@@ -29,7 +27,6 @@ export default class AuthService {
   logout() {
     localStorage.clear();
     this._router.navigateByUrl('/login');
-    this._socket.disconnect();
   }
 
   isLogged() {
