@@ -12,15 +12,19 @@ import submissionRoutes from './src/routes/submission.route.js';
 import userRoutes from './src/routes/user.route.js';
 import initSockets from './src/socket/index.js';
 
+const corsOptions = {
+  origin: process.env.CLIENT_URL || '*',
+};
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: '*' },
+  cors: corsOptions,
 });
 
 connectDB();
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
