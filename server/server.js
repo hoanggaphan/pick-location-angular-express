@@ -12,21 +12,24 @@ import submissionRoutes from './src/routes/submission.route.js';
 import userRoutes from './src/routes/user.route.js';
 import initSockets from './src/socket/index.js';
 
-const corsOptions = {
-  origin: process.env.CLIENT_URL || '*',
-};
-
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: corsOptions,
+  cors: {
+    origin: process.env.CLIENT_URL || '*',
+    credentials: true,
+  },
 });
 
 const startServer = async () => {
   try {
     await connectDB();
 
-    app.use(cors(corsOptions));
+    app.use(
+      cors({
+        origin: process.env.CLIENT_URL || '*',
+      })
+    );
 
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
