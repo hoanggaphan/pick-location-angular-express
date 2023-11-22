@@ -39,22 +39,24 @@ const db = {
   users: UserModel(sequelize),
 };
 
-const connectDB = () => {
-  db.submissions.hasMany(db.locations, { foreignKey: 'submissionId' });
-  db.locations.belongsTo(db.submissions, { foreignKey: 'submissionId' });
-  db.users.hasMany(db.submissions, { foreignKey: 'userId' });
-  db.submissions.belongsTo(db.users, { foreignKey: 'userId' });
-  db.users.hasMany(db.locations, { foreignKey: 'userId' });
-  db.locations.belongsTo(db.users, { foreignKey: 'userId' });
+const connectDB = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
 
-  sequelize
-    .sync()
-    .then(() => {
-      console.log('Synced db.');
-    })
-    .catch((err) => {
-      console.log('Failed to sync db: ' + err.message);
-    });
+    db.submissions.hasMany(db.locations, { foreignKey: 'submissionId' });
+    db.locations.belongsTo(db.submissions, { foreignKey: 'submissionId' });
+    db.users.hasMany(db.submissions, { foreignKey: 'userId' });
+    db.submissions.belongsTo(db.users, { foreignKey: 'userId' });
+    db.users.hasMany(db.locations, { foreignKey: 'userId' });
+    db.locations.belongsTo(db.users, { foreignKey: 'userId' });
+
+    await sequelize.sync({ force: true });
+
+    console.log('Synced db.');
+  } catch (err) {
+    console.error('Unable to connect to the database:', err);
+  }
 };
 
 export { connectDB, db, sequelize };
