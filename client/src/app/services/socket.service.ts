@@ -14,6 +14,7 @@ export default class SocketService {
     query: {
       userId: this.user.id,
     },
+    withCredentials: true,
   });
 
   emit<T>(event: string, data: T): void {
