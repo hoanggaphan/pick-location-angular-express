@@ -1,9 +1,10 @@
+import { createAdapter } from '@socket.io/postgres-adapter';
 import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import { connectDB, sequelize } from './src/configs/db.config.js';
+import { connectDB } from './src/configs/db.config.js';
 import * as authMiddleware from './src/middlewares/auth.middleware.js';
 import { errorHandler } from './src/middlewares/errorHandler.middleware.js';
 import authRoutes from './src/routes/auth.route.js';
@@ -11,8 +12,9 @@ import locationRoutes from './src/routes/location.route.js';
 import submissionRoutes from './src/routes/submission.route.js';
 import userRoutes from './src/routes/user.route.js';
 import initSockets from './src/socket/index.js';
-import { createAdapter } from '@socket.io/postgres-adapter';
+import pkg from 'pg';
 
+const { Pool } = pkg;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -47,7 +49,7 @@ const startServer = async () => {
 
     app.use(errorHandler);
 
-    const pgAdapter = createAdapter({
+    const pool = new Pool({
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
       user: process.env.DB_USER,
@@ -55,9 +57,18 @@ const startServer = async () => {
       database: process.env.DB_NAME,
     });
 
-    io.adapter(pgAdapter);
+    pool.query(`
+      CREATE TABLE IF NOT EXISTS socket_io_attachments (
+          id          bigserial UNIQUE,
+          created_at  timestamptz DEFAULT NOW(),
+          payload     bytea
+      );
+    `);
+
+    io.adapter(createAdapter(pool));
 
     initSockets(io);
+    io.listen(3001);
 
     const PORT = process.env.PORT || 3000;
     server.listen(PORT, () => {
