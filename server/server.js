@@ -16,12 +16,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: process.env.CLIENT_URL || '*',
     methods: ['GET', 'POST'],
     transports: ['polling', 'websocket'],
-    allowedHeaders: ['Access-Control-Allow-Origin'],
+    withCredentials: true,
   },
-  allowEIO4: true,
 });
 
 const startServer = async () => {
