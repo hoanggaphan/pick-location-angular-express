@@ -1,4 +1,3 @@
-import { createAdapter } from '@socket.io/postgres-adapter';
 import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
@@ -12,16 +11,12 @@ import locationRoutes from './src/routes/location.route.js';
 import submissionRoutes from './src/routes/submission.route.js';
 import userRoutes from './src/routes/user.route.js';
 import initSockets from './src/socket/index.js';
-import pkg from 'pg';
 
-const { Pool } = pkg;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
-    transports: ['polling'],
+    origin: process.env.CLIENT_URL || '*',
   },
 });
 
@@ -49,26 +44,7 @@ const startServer = async () => {
 
     app.use(errorHandler);
 
-    const pool = new Pool({
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-    });
-
-    pool.query(`
-      CREATE TABLE IF NOT EXISTS socket_io_attachments (
-          id          bigserial UNIQUE,
-          created_at  timestamptz DEFAULT NOW(),
-          payload     bytea
-      );
-    `);
-
-    io.adapter(createAdapter(pool));
-
     initSockets(io);
-    io.listen(3001);
 
     const PORT = process.env.PORT || 3000;
     server.listen(PORT, () => {
