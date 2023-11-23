@@ -17,7 +17,7 @@ export default class SocketService {
       query: {
         userId: user.id,
       },
-      transports: ['websocket'],
+      transports: ['polling'],
     });
   }
 
