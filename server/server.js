@@ -3,7 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import { connectDB } from './src/configs/db.config.js';
+import { connectDB, sequelize } from './src/configs/db.config.js';
 import * as authMiddleware from './src/middlewares/auth.middleware.js';
 import { errorHandler } from './src/middlewares/errorHandler.middleware.js';
 import authRoutes from './src/routes/auth.route.js';
@@ -11,6 +11,7 @@ import locationRoutes from './src/routes/location.route.js';
 import submissionRoutes from './src/routes/submission.route.js';
 import userRoutes from './src/routes/user.route.js';
 import initSockets from './src/socket/index.js';
+import { createAdapter } from '@socket.io/postgres-adapter';
 
 const app = express();
 const server = http.createServer(app);
@@ -46,6 +47,16 @@ const startServer = async () => {
     app.use('/api/user', authMiddleware.checkAccessToken, userRoutes);
 
     app.use(errorHandler);
+
+    const pgAdapter = createAdapter({
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    });
+
+    io.adapter(pgAdapter);
 
     initSockets(io);
 
