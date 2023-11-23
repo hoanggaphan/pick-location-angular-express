@@ -3,7 +3,7 @@
 
 Let the user randomly choose a location on google map, then the admin will approve the scanned locations, the approved locations will be displayed in real time for the user to see.
 
-
+<a id="top"></a>
 ## Table of contents
 - [Tech Stack](#user-content-tech-stack)
 - [Features](#features)
@@ -149,3 +149,5 @@ Start the server
 
 - [@hoanggaphan](https://www.github.com/hoanggaphan)
 
+
+<a href="#top"><g-emoji class="g-emoji" alias="arrow_up" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2b06.png">⬆</g-emoji>Lên đầu trang</a>
