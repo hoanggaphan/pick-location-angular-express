@@ -19,6 +19,7 @@ const io = new Server(server, {
     origin: '*',
     methods: ['GET', 'POST'],
     transports: ['websocket', 'polling'],
+    allowedHeaders: ['Access-Control-Allow-Origin'],
   },
   allowEIO3: true,
 });
