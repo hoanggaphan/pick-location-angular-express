@@ -17,10 +17,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || '*',
+    origin: '*',
     methods: ['GET', 'POST'],
     transports: ['polling', 'websocket'],
-    withCredentials: true,
   },
 });
 
