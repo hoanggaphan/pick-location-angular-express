@@ -5,7 +5,7 @@ Let the user randomly choose a location on google map, then the admin will appro
 
 
 ## Table of contents
-- [Tech Stack](#tech_stack)
+- [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Requires](#requires)
 - [Environment Variables](#environment-variables)
