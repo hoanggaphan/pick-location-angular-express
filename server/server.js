@@ -31,9 +31,15 @@ const startServer = async () => {
     app.use(
       cors({
         origin: process.env.CLIENT_URL || '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        credentials: true,
       })
     );
 
+    app.use('/(.*)', (req, res, next) => {
+      res.header('Access-Control-Allow-Credentials', 'true');
+      next();
+    });
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
 
