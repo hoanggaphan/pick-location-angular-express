@@ -3,6 +3,11 @@ import { LayoutComponent } from './layouts/layout/layout.component';
 import AuthGuard from './shared/auth.guard';
 import RoleGuard from './shared/role.guard';
 import { LayoutAdminComponent } from './layouts/layout-admin/layout-admin.component';
+import { LoginComponent } from './pages/login/login.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { MapSubmissionComponent } from './pages/map-submission/map-submission.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { SubmissionDetailsComponent } from './pages/submission-details/submission-details.component';
 
 export const routes: Routes = [
   {
@@ -16,10 +21,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'map-submission',
-        loadComponent: () =>
-          import('./pages/map-submission/map-submission.component').then(
-            (m) => m.MapSubmissionComponent
-          ),
+        component: MapSubmissionComponent,
       },
       {
         path: 'user',
@@ -35,33 +37,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('./pages/dashboard/dashboard.component').then(
-            (m) => m.DashboardComponent
-          ),
+        component: DashboardComponent,
       },
       {
         path: 'submission/:id',
-        loadComponent: () =>
-          import(
-            './pages/submission-details/submission-details.component'
-          ).then((m) => m.SubmissionDetailsComponent),
+        component: SubmissionDetailsComponent,
       },
     ],
     canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('./pages/login/login.component').then((m) => m.LoginComponent),
+    component: LoginComponent,
     canActivate: [AuthGuard],
   },
   {
     path: 'register',
-    loadComponent: () =>
-      import('./pages/register/register.component').then(
-        (m) => m.RegisterComponent
-      ),
+    component: RegisterComponent,
   },
   {
     path: '**',

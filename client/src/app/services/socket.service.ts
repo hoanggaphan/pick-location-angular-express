@@ -9,13 +9,17 @@ import AuthService from './auth.service';
 })
 export default class SocketService {
   _authService = inject(AuthService);
-  user = JSON.parse(this._authService.getUser());
-  socket = io(environment.serverUrl, {
-    query: {
-      userId: this.user.id,
-    },
-    withCredentials: true,
-  });
+  socket;
+
+  constructor() {
+    const user = JSON.parse(this._authService.getUser());
+    this.socket = io(environment.serverUrl, {
+      query: {
+        userId: user.id,
+      },
+      withCredentials: true,
+    });
+  }
 
   emit<T>(event: string, data: T): void {
     this.socket.emit(event, data);
