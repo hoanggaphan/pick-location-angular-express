@@ -25,6 +25,9 @@ const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   dialect: configs.dialect,
   port: configs.port,
   logging: process.env.NODE_ENV === 'development' ? console.log : false,
+  dialectOptions: {
+    ssl: process.env.NODE_ENV === 'development' ? false : true,
+  },
   pool: {
     max: configs.pool.max,
     min: configs.pool.min,
