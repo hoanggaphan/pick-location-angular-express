@@ -60,11 +60,11 @@ For environment.ts:
 
 `production: true`
 
-`serverUrl: 'server-url-in-production`
+`serverUrl: import.meta.env['NG_APP_SERVER_URL']`
 
-`apiUrl: 'server-url-in-production/api'`
+`apiUrl: import.meta.env['NG_APP_API_URL'],`
 
-`ggApiKey: 'your-api-key`
+`ggApiKey: import.meta.env['NG_APP_GG_API_KEY'],`
 
 For environment.development.ts:
 
@@ -74,7 +74,15 @@ For environment.development.ts:
 
 `apiUrl: 'http://localhost:3000/api`
 
-`ggApiKey: 'your-api-key'`
+`ggApiKey: import.meta.env['NG_APP_GG_API_KEY'],`
+
+For .env files folder client:
+
+`NG_APP_SERVER_URL=your-server-url`
+
+`NG_APP_API_URL=your-api-url`
+
+`NG_APP_GG_API_KEY=your-api-key`
 
 For .env files folder server:
 
