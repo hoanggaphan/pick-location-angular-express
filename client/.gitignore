@@ -45,3 +45,4 @@ Thumbs.db
 .flaskenv*
 !.env.project
 !.env.vault
+!.env.example
