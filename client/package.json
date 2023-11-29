@@ -2,11 +2,11 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "ng": "node -r dotenv/config ./node_modules/.bin/ng",
+    "start": "node -r dotenv/config ./node_modules/.bin/ng serve",
+    "build": "node -r dotenv/config ./node_modules/.bin/ng build",
+    "watch": "node -r dotenv/config ./node_modules/.bin/ng build --watch --configuration development",
+    "test": "node -r dotenv/config ./node_modules/.bin/ng test"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^17.0.0-next.0",
     "@angular/platform-browser-dynamic": "^17.0.0-next.0",
     "@angular/router": "^17.0.0-next.0",
+    "dotenv": "^16.3.1",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.7.2",
     "tslib": "^2.3.0",
@@ -30,6 +31,7 @@
     "@angular-devkit/build-angular": "^17.0.0-rc.3",
     "@angular/cli": "^17.0.0-rc.3",
     "@angular/compiler-cli": "^17.0.0-next.0",
+    "@ngx-env/builder": "^17.0.2-alpha.0",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.16",
     "jasmine-core": "~5.1.0",

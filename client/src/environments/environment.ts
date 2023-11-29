@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverUrl: 'https://pick-location-server.vercel.app',
-  apiUrl: 'https://pick-location-server.vercel.app/api',
-  ggApiKey: 'createFromConsoleGoole',
+  serverUrl: import.meta.env['NG_APP_SERVER_URL'],
+  apiUrl: import.meta.env['NG_APP_API_URL'],
+  ggApiKey: import.meta.env['NG_APP_GG_API_KEY'],
 };
