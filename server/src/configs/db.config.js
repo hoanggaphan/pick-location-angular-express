@@ -26,7 +26,7 @@ const sequelize = new Sequelize(configs.DB, configs.USER, configs.PASSWORD, {
   port: configs.port,
   logging: process.env.NODE_ENV === 'development' ? console.log : false,
   dialectOptions: {
-    ssl: process.env.NODE_ENV === 'development' ? false : true,
+    ssl: process.env.NODE_ENV !== 'development',
   },
   pool: {
     max: configs.pool.max,

@@ -4,8 +4,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon --inspect server.js"
+    "start": "node -r dotenv/config server.js",
+    "dev": "nodemon --inspect -r dotenv/config server.js dotenv_config_path=.env.development"
   },
   "license": "MIT",
   "dependencies": {
