@@ -54,7 +54,12 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "hidden": true,
+                "vendor": true
+              },
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

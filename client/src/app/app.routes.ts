@@ -1,13 +1,10 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './layouts/layout/layout.component';
-import AuthGuard from './shared/auth.guard';
-import RoleGuard from './shared/role.guard';
 import { LayoutAdminComponent } from './layouts/layout-admin/layout-admin.component';
+import { LayoutComponent } from './layouts/layout/layout.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { MapSubmissionComponent } from './pages/map-submission/map-submission.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { SubmissionDetailsComponent } from './pages/submission-details/submission-details.component';
+import AuthGuard from './shared/auth.guard';
+import RoleGuard from './shared/role.guard';
 
 export const routes: Routes = [
   {
@@ -21,7 +18,10 @@ export const routes: Routes = [
     children: [
       {
         path: 'map-submission',
-        component: MapSubmissionComponent,
+        loadComponent: () =>
+          import('./pages/map-submission/map-submission.component').then(
+            (m) => m.MapSubmissionComponent
+          ),
       },
       {
         path: 'user',
@@ -37,11 +37,17 @@ export const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent
+          ),
       },
       {
         path: 'submission/:id',
-        component: SubmissionDetailsComponent,
+        loadComponent: () =>
+          import(
+            './pages/submission-details/submission-details.component'
+          ).then((m) => m.SubmissionDetailsComponent),
       },
     ],
     canActivate: [AuthGuard, RoleGuard],

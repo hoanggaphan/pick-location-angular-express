@@ -12,7 +12,12 @@
         <p>
           <mat-form-field class="w-full">
             <mat-label>Username</mat-label>
-            <input matInput formControlName="username" required />
+            <input
+              matInput
+              formControlName="username"
+              required
+              autocomplete="username"
+            />
             @if (form.controls.username.invalid) {
             <mat-error class="text-xs">{{ getErrorUsernameMess() }}</mat-error>
             }
@@ -26,6 +31,7 @@
               [type]="hideP ? 'password' : 'text'"
               formControlName="password"
               required
+              autocomplete="current-password"
             />
             <button
               type="button"
@@ -48,6 +54,7 @@
               [type]="hideCP ? 'password' : 'text'"
               formControlName="confirm_password"
               required
+              autocomplete="confirm_password"
             />
             <button
               type="button"

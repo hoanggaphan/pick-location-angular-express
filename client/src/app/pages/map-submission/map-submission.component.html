@@ -1,4 +1,4 @@
-@if (apiLoaded$ | async) {
+@defer (when apiLoaded$ | async) {
 <google-map
   height="80vh"
   width="100%"
@@ -22,11 +22,18 @@
   } }
   <map-info-window [innerHTML]="infoContent"></map-info-window>
 </google-map>
-
 <div class="flex p-5 justify-center items-center gap-2">
   <span class="text-base">Pick a random location and click</span>
   <button mat-raised-button color="primary" (click)="submit()">
     <mat-icon>location_on</mat-icon>Submit
   </button>
+</div>
+} @placeholder {
+<div class="animate-pulse bg-[#e5e3df] w-100 h-[80vh]"></div>
+} @loading (after 300ms; minimum 1s) {
+<div class="animate-pulse bg-[#e5e3df] w-100 h-[80vh]"></div>
+} @error {
+<div class="grid place-content-center w-100 h-[80vh]">
+  Something went wrong!
 </div>
 }
